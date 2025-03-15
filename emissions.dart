@@ -274,3 +274,87 @@ class _EmissionsCalculatorState extends State<EmissionsCalculator> {
                 },
               ),
             ),
+
+Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 5,
+                    offset: const Offset(0, -3),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Your Selections',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.green[700],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 250,
+                    child: _selectedFoodItems.isEmpty
+                        ? const Center(
+                            child: Text('Tap on a food item to add it to your calculation'),
+                          )
+                        : ListView.builder(
+                            itemCount: _selectedFoodItems.length,
+                            itemBuilder: (context, index) {
+                              final item = _selectedFoodItems[index];
+                              final quantity = _quantities[item.name]!;
+                              final alternative = _findBetterAlternative(item);
+                              return ListTile(
+                                title: Text(item.name),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text('CO₂e: ${(item.carbonPerKg * quantity).toStringAsFixed(2)} kg'),
+                                    Text('Land: ${(item.landPerKg * quantity).toStringAsFixed(2)} m²'),
+                                    Text('Water: ${(item.waterPerKg * quantity).toStringAsFixed(0)} L'),
+                                    if (alternative != null) ...[
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        'Try: ${alternative.name} (↓${(item.carbonPerKg - alternative.carbonPerKg).toStringAsFixed(1)} kg CO₂e/kg)',
+                                        style: TextStyle(
+                                          color: Colors.green[700],
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    SizedBox(
+                                      width: 100,
+                                      child: Slider(
+                                        value: _quantities[item.name]!,
+                                        min: 0.01,
+                                        max: 2.0,
+                                        divisions: 20,
+                                        label: '${(_quantities[item.name]! * 1000).toStringAsFixed(0)}g',
+                                        onChanged: (value) {
+                                          _updateQuantity(item.name, value);
+                                        },
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.delete, color: Colors.red),
+                                      onPressed: () => _removeFoodItem(item),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                  ),
