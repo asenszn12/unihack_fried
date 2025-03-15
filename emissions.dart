@@ -86,3 +86,77 @@ class _EmissionsCalculatorState extends State<EmissionsCalculator> {
       description: 'Based on an average car driving 12,000 miles/year at 25 MPG',
     ),
   ];
+  
+    @override
+  void initState() {
+    super.initState();
+    _filteredItems = List.from(_foodItems);
+  }
+
+  void _filterByCategory(String category) {
+    setState(() {
+      _selectedCategory = category;
+      if (category == 'All') {
+        _filteredItems = List.from(_foodItems);
+      } else {
+        _filteredItems = _foodItems.where((item) => item.category == category).toList();
+      }
+    });
+  }
+
+  void _addFoodItem(FoodItem item) {
+    setState(() {
+      if (!_quantities.containsKey(item.name)) {
+        _quantities[item.name] = 0.1; // Default 100g
+      }
+      
+      if (!_selectedFoodItems.contains(item)) {
+        _selectedFoodItems.add(item);
+      }
+      
+      _calculateTotals();
+    });
+  }
+
+  void _removeFoodItem(FoodItem item) {
+    setState(() {
+      _selectedFoodItems.remove(item);
+      _quantities.remove(item.name);
+      _calculateTotals();
+    });
+  }
+
+  void _updateQuantity(String foodName, double quantity) {
+    setState(() {
+      _quantities[foodName] = quantity;
+      _calculateTotals();
+    });
+  }
+
+  void _calculateTotals() {
+    double emissions = 0.0;
+    double land = 0.0;
+    double water = 0.0;
+    
+    for (var item in _selectedFoodItems) {
+      final quantity = _quantities[item.name]!;
+      emissions += item.carbonPerKg * quantity;
+      land += item.landPerKg * quantity;
+      water += item.waterPerKg * quantity;
+    }
+    
+    _totalEmissions = emissions;
+    _totalLandUse = land;
+    _totalWaterUse = water;
+  }
+
+  FoodItem? _findBetterAlternative(FoodItem item) {
+    final sameCategoryItems = _foodItems.where((i) => i.category == item.category && i.name != item.name).toList();
+    if (sameCategoryItems.isEmpty) return null;
+
+    return sameCategoryItems.reduce((a, b) {
+      final scoreA = a.carbonPerKg + a.landPerKg + (a.waterPerKg / 1000);
+      final scoreB = b.carbonPerKg + b.landPerKg + (b.waterPerKg / 1000);
+      return scoreA < scoreB ? a : b;
+    });
+  }
