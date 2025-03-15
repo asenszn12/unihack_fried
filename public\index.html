@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greena</title>
+    <!-- Add Firebase SDK Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1>Welcome to Greena!</h1>
+    
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyALqvXReaUrfwaCZaQgymQYBa-d0ge2SOk",
+            authDomain: "greena-by-fried-bros.firebaseapp.com",
+            projectId: "greena-by-fried-bros",
+            storageBucket: "greena-by-fried-bros.appspot.com",
+            messagingSenderId: "72834571915",
+            appId: "1:72834571915:web:9c75d9d15f623960cafe8e",
+            measurementId: "G-P78SYN3JJY"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const analytics = firebase.getAnalytics(app);
+        
+        console.log("Firebase is initialized and analytics is set up!");
+    </script>
+</body>
+</html>
