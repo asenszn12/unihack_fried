@@ -442,3 +442,69 @@ Container(
                 ],
               ),
             ),
+
+// Updated Comparison Section
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Compare Your Food Footprint',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.green[700],
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  if (_totalEmissions > 0) ...[
+                    ..._comparisonItems.map((item) => Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${item.name}: ${item.carbonFootprint.toStringAsFixed(0)} kg CO₂e',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              Text(
+                                item.description,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Vs Food: ${(_totalEmissions > item.carbonFootprint ? '+' : '-')}${(_totalEmissions - item.carbonFootprint).abs().toStringAsFixed(2)} kg CO₂e',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: _totalEmissions > item.carbonFootprint ? Colors.red : Colors.green,
+                                ),
+                              ),
+                              Text(
+                                'Your food is ${(100 * _totalEmissions / item.carbonFootprint).toStringAsFixed(1)}% of a car\'s yearly emissions',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                  ] else ...[
+                    const Text(
+                      'Add food items to see how they compare to an average car!',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
