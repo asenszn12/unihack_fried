@@ -7,7 +7,6 @@ void main() {
 
 class EmissionsCalculatorApp extends StatelessWidget {
   const EmissionsCalculatorApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
