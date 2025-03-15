@@ -7,3 +7,82 @@ class EmissionsCalculator extends StatefulWidget {
   @override
   _EmissionsCalculatorState createState() => _EmissionsCalculatorState();
 }
+
+class _EmissionsCalculatorState extends State<EmissionsCalculator> {
+  final List<FoodItem> _foodItems = [
+    FoodItem(
+      name: 'Beef',
+      carbonPerKg: 27.0,
+      landPerKg: 164.0,
+      waterPerKg: 15400.0,
+      category: 'Meat',
+      imagePath: 'assets/beef.png',
+    ),
+    FoodItem(
+      name: 'Lamb',
+      carbonPerKg: 39.2,
+      landPerKg: 185.0,
+      waterPerKg: 10400.0,
+      category: 'Meat',
+      imagePath: 'assets/lamb.png',
+    ),
+    FoodItem(
+      name: 'Chicken',
+      carbonPerKg: 6.9,
+      landPerKg: 7.1,
+      waterPerKg: 4300.0,
+      category: 'Meat',
+      imagePath: 'assets/chicken.png',
+    ),
+    FoodItem(
+      name: 'Rice',
+      carbonPerKg: 2.7,
+      landPerKg: 2.8,
+      waterPerKg: 2500.0,
+      category: 'Grains',
+      imagePath: 'assets/rice.png',
+    ),
+    FoodItem(
+      name: 'Potatoes',
+      carbonPerKg: 0.3,
+      landPerKg: 0.4,
+      waterPerKg: 287.0,
+      category: 'Vegetables',
+      imagePath: 'assets/potatoes.png',
+    ),
+    FoodItem(
+      name: 'Carrot',
+      carbonPerKg: 0.3,
+      landPerKg: 0.4,
+      waterPerKg: 287.0,
+      category: 'Vegetables',
+      imagePath: 'assets/potatoes.png',
+    ),
+    FoodItem(
+      name: 'Milk',
+      carbonPerKg: 1.9,
+      landPerKg: 8.9,
+      waterPerKg: 1020.0,
+      category: 'Dairy',
+      imagePath: 'assets/milk.png',
+    ),
+  ];
+
+  final List<String> _categories = ['All', 'Meat', 'Dairy', 'Vegetables', 'Grains', 'Fruits'];
+  String _selectedCategory = 'All';
+  List<FoodItem> _filteredItems = [];
+  final List<FoodItem> _selectedFoodItems = [];
+  double _totalEmissions = 0.0;
+  double _totalLandUse = 0.0;
+  double _totalWaterUse = 0.0;
+  
+  final Map<String, double> _quantities = {};
+
+  // Static comparison data for an average car
+  final List<ComparisonItem> _comparisonItems = [
+    ComparisonItem(
+      name: 'Average Car (Annual)',
+      carbonFootprint: 4600.0, // ~4.6 metric tons CO₂e per year for an average car (EPA estimate)
+      description: 'Based on an average car driving 12,000 miles/year at 25 MPG',
+    ),
+  ];
